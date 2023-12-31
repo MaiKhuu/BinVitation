@@ -3,6 +3,7 @@ import url from 'url'
 import path from 'path'
 import express from 'express'
 import initRoutes from './routes/initRoutes.js'
+import binRoutes from './routes/binRoutes.js'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -14,6 +15,7 @@ const HOST = process.env.SERVER_HOST
 const app = express()
 
 app.use(initRoutes)
+app.use(binRoutes)
 
 app.listen(PORT, HOST, () => {
   console.log(`✅ Server started at ${HOST} port ${PORT}`)

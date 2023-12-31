@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import url from 'url'
 import path from 'path'
 import pg from 'pg'
-import fs from 'fs'
 import express from 'express'
 
 const router = express.Router()
@@ -12,26 +11,21 @@ const __dirname = path.dirname(__filename)
 dotenv.config({ path: `${__dirname}/../../.env` })
 
 const DATABASE_URL = process.env.DATABASE_URL
-const INIT_FILE = 'database/db_init.sql'
 
 const pool = new pg.Pool({
   connectionString: DATABASE_URL
 })
 
-router.post('/init', async (req, res) => {
+router.get('/bins', async (req, res) => {
   try {
-    console.log('Initializing SQL schema')
-
-    const fileContent = fs.readFileSync(INIT_FILE).toString()
-    const statements = fileContent.replace(/(\r\n|\n|\r)/gm, '').split(';')
-
-    for (let i = 0; i < statements.length; i++) {
-      await pool.query(statements[i])
+    const queryResult = await pool.query('SELECT * FROM bins;')
+    const result = {
+      total: queryResult.rows.length,
+      bins: queryResult.rows
     }
-
-    console.log('✅ SQL init finished')
+    res.send(result)
   } catch (err) {
-    console.log('❌ Error running schema initialization')
+    res.status(500).send('Internal server Error')
   }
 })
 
