@@ -25,6 +25,8 @@ router.get('/bins', async (req, res) => {
     }
     res.send(result)
   } catch (err) {
+    console.log('❌ Error while GET /bins')
+    console.log(err)
     res.status(500).send('Internal server Error')
   }
 })
