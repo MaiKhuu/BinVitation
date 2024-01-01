@@ -5,6 +5,11 @@ import pg from 'pg'
 import fs from 'fs'
 import express from 'express'
 
+const UNEXPECTED_ERROR = {
+  error: 'Unexpected Error',
+  message: 'An unexpected error occurred. Please contact support for assistance.'
+}
+
 const router = express.Router()
 
 const __filename = url.fileURLToPath(import.meta.url)
@@ -29,9 +34,9 @@ router.post('/init', async (req, res) => {
       await pool.query(statements[i])
     }
 
-    console.log('✅ SQL init finished')
+    res.send({ message: 'Successful Schema initialization' })
   } catch (err) {
-    console.log('❌ Error running schema initialization')
+    res.send(UNEXPECTED_ERROR)
   }
 })
 

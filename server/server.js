@@ -14,8 +14,13 @@ const HOST = process.env.SERVER_HOST
 
 const app = express()
 
+app.use(express.json())
 app.use(initRoutes)
 app.use(binRoutes)
+
+app.get('/', (req, res) => {
+  res.send({ message: 'Welcome to BinVitation API' })
+})
 
 app.listen(PORT, HOST, () => {
   console.log(`✅ Server started at ${HOST} port ${PORT}`)
