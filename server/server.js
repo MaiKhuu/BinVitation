@@ -4,6 +4,7 @@ import path from 'path'
 import express from 'express'
 import initRoutes from './routes/initRoutes.js'
 import binRoutes from './routes/binRoutes.js'
+import cors from 'cors'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -14,6 +15,7 @@ const HOST = process.env.SERVER_HOST
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(initRoutes)
 app.use(binRoutes)

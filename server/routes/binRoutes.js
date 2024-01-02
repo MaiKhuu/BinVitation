@@ -124,10 +124,10 @@ router.post('/bins', async (req, res) => {
 
 router.get('/bins', async (req, res) => {
   try {
-    const queryResult = await pool.query('SELECT * FROM bins;')
+    const queryResult = await pool.query('SELECT id FROM bins;')
     const result = {
       total: queryResult.rows.length,
-      bins: queryResult.rows
+      bin_ids: queryResult.rows.map(obj => obj.id)
     }
     res.send(result)
   } catch (err) {

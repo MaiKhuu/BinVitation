@@ -1,11 +1,13 @@
 import Sidebar from "./components/Sidebar"
 import Header from "./components/Header"
+import MainArea from "./components/MainArea"
 
 function App() {
   return (
     <>
-      <Header></Header>
-      <Sidebar></Sidebar>
+      <Header />
+      <Sidebar />
+      <MainArea />
     </>
   )
 }
