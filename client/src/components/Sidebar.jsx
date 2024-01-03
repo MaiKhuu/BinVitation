@@ -4,11 +4,16 @@ import { getAllBins } from "../services/services"
 
 function Sidebar() {
   const [binIds, setBinIds] = React.useState([])
+  const [clickedBin, setClickedBin] = React.useState("")
 
   React.useEffect(() => {
     getAllBins()
       .then(data => setBinIds(data.bin_ids))
   }, [])
+
+  const handleBinClicked = (binId) => {
+    setClickedBin(binId)
+  }
 
   return (
     <div className="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-coral-pink dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10 sidebar">
@@ -23,7 +28,7 @@ function Sidebar() {
 
           {binIds.map((binId, idx) => (
             <li key={'bin_' + idx}>
-              <BinThumbnail binId={binId} />
+              <BinThumbnail binId={binId} clickedBin={clickedBin} handleBinClicked={handleBinClicked}/>
             </li>
           ))}
           

@@ -26,7 +26,27 @@ const pool = new pg.Pool({
   connectionString: DATABASE_URL
 })
 
-router.post('/bins/:id/open', async (req, res) => {
+router.all('/bins/:id/receiver', async (req, res) => {
+  const httpMethod = req.method
+  const id = req.params.id
+  const payload = req.body
+  if (id === undefined) {
+    res.send(BAD_REQUEST_MESSAGE)
+  } else {
+    try {
+      const insertQueryText = 'INSERT INTO documents (bin_id, method, payload) VALUES ($1, $2, $3) RETURNING *;'
+      const insertQuery = await pool.query(insertQueryText, [id, httpMethod, payload])
+      res.send({
+        insert_count: insertQuery.rowCount,
+        ...insertQuery.rows[0]
+      })
+    } catch (err) {
+      res.status(500).send(UNEXPECTED_ERROR)
+    }
+  }
+})
+
+router.post('/bins/:id', async (req, res) => {
   const id = req.params.id
   if (id === undefined) {
     res.send(BAD_REQUEST_MESSAGE)
@@ -55,25 +75,6 @@ router.delete('/bins/:id', async (req, res) => {
       res.send({ deleted_count: deleteQuery.rowCount })
     } catch (err) {
       console.log(err)
-      res.status(500).send(UNEXPECTED_ERROR)
-    }
-  }
-})
-
-router.post('/bins/:id', async (req, res) => {
-  const id = req.params.id
-  const payload = req.body
-  if (id === undefined) {
-    res.send(BAD_REQUEST_MESSAGE)
-  } else {
-    try {
-      const insertQueryText = 'INSERT INTO documents (bin_id, payload) VALUES ($1, $2) RETURNING *;'
-      const insertQuery = await pool.query(insertQueryText, [id, payload])
-      res.send({
-        insert_count: insertQuery.rowCount,
-        ...insertQuery.rows[0]
-      })
-    } catch (err) {
       res.status(500).send(UNEXPECTED_ERROR)
     }
   }

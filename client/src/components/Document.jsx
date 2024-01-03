@@ -26,9 +26,9 @@ function Document() {
       <div className="flex-grow">
         <h4 className="text-gray-900 text-lg title-font font-medium mb-3">Shooting Stars</h4>
         <p className="pl=10 leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
+        <pre>{JSON.stringify(obj)}</pre>
       </div>
-      
-      <pre>{JSON.stringify(obj, null, 2)}</pre>
+
     </>
   )
 }

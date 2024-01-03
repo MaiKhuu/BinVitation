@@ -10,3 +10,8 @@ export const getBin = async (id) => {
   return data
 }
 
+export const openBin = async (id) => {
+  const { data } = await axios.post(`http://localhost:5000/bins/${id}`)
+  return data
+}
+
