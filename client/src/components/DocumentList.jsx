@@ -1,4 +1,16 @@
-function DocumentList() {
+import React from "react"
+import DocumentThumbnail from "./DocumentThumbnail"
+import { getDocuments } from "../services/services"
+
+function DocumentList({ binId }) {
+  const [documentIds, setDocumentIds] = React.useState([])
+
+  React.useEffect(() => {
+    getDocuments(binId)
+      .then(data => data.docs)
+      .then(docsId => setDocumentIds(docsId))
+  }, [])
+
   return (
    <>
       <table className="overflow-auto w-full">
@@ -9,23 +21,8 @@ function DocumentList() {
           <th className="px-4 py-3">DATE</th>
           <th className="px-4 py-3">TIME</th>
         </tr>
-
-        <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          <tr className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
-            <td className="px-4 py-3">
-
-              <div className="flex items-center text-sm">
-                  <p className="font-semibold">HTTP GET</p>
-              </div>
-            </td>
-
-            <td className="px-4 py-3 text-xs">
-              <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"> Unread </span>
-            </td>
-            <td className="px-4 py-3 text-sm">15-01-2021</td>
-            <td className="px-4 py-3 text-sm">12:02 PM</td>
-          </tr>
-        </tbody>
+        
+        {documentIds.map(id => <DocumentThumbnail key={"doc_" + id} documentId={id}/>)}
 
       </table>
    </>

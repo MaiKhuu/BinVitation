@@ -15,3 +15,12 @@ export const openBin = async (id) => {
   return data
 }
 
+export const getDocuments = async (id) => {
+  const { data } = await axios.get(`http://localhost:5000/bins/${id}`)
+  return data
+}
+
+export const getDocument = async (id) => {
+  const { data } = await axios.get(`http://localhost:5000/documents/${id}`)
+  return data
+}

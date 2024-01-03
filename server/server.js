@@ -4,6 +4,7 @@ import path from 'path'
 import express from 'express'
 import initRoutes from './routes/initRoutes.js'
 import binRoutes from './routes/binRoutes.js'
+import documentRoutes from './routes/documentRoutes.js'
 import cors from 'cors'
 
 const __filename = url.fileURLToPath(import.meta.url)
@@ -19,6 +20,7 @@ app.use(cors())
 app.use(express.json())
 app.use(initRoutes)
 app.use(binRoutes)
+app.use(documentRoutes)
 
 app.get('/', (req, res) => {
   res.send({ message: 'Welcome to BinVitation API' })

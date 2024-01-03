@@ -95,10 +95,14 @@ router.get('/bins/:id', async (req, res) => {
       const totalUnreadDocsQueryText = 'SELECT count(*) FROM documents WHERE bin_id = $1 AND read = false;'
       const totalUnreadDocsQuery = await pool.query(totalUnreadDocsQueryText, [id])
 
+      const docsQueryText = 'SELECT id FROM documents WHERE bin_id = $1;'
+      const docsQuery = await pool.query(docsQueryText, [id])
+
       const result = {
         ...binInfoQuery.rows[0],
         total_docs: totalDocsQuery.rows[0].count,
-        unread_docs: totalUnreadDocsQuery.rows[0].count
+        unread_docs: totalUnreadDocsQuery.rows[0].count,
+        docs: docsQuery.rows.map(tuple => tuple.id)
       }
 
       res.send(result)
